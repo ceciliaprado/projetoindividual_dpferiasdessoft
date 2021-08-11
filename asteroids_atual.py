@@ -19,37 +19,36 @@ METEOR_HEIGHT = 50
 SHIP_WIDTH = 200
 SHIP_HEIGHT = 200
 
-background = pygame.image.load('assets/starfield2.jpg').convert()
-meteor_img = pygame.image.load('assets/meteoro2.png').convert_alpha()
-meteor_img = pygame.transform.scale(meteor_img, (METEOR_WIDTH, METEOR_HEIGHT))
-background = pygame.transform.scale(background, (WIDTH, HEIGHT))
-ship_img = pygame.image.load('assets/nave.png').convert_alpha()
-ship_img = pygame.transform.scale(ship_img, (SHIP_WIDTH, SHIP_HEIGHT))
-bullet_img = pygame.image.load('assets/laser.png').convert_alpha()
+assets= {}
+assets ['background']= pygame.image.load('assets/starfield2.jpg').convert()
+assets['meteor_img'] = pygame.image.load('assets/meteoro2.png').convert_alpha()
+assets['meteor_img'] = pygame.transform.scale(meteor_img, (METEOR_WIDTH, METEOR_HEIGHT))
+assets['background ']= pygame.transform.scale(background, (WIDTH, HEIGHT))
+assets['ship_img'] = pygame.image.load('assets/nave.png').convert_alpha()
+assets['ship_img'] = pygame.transform.scale(ship_img, (SHIP_WIDTH, SHIP_HEIGHT))
+assets['bullet_img'] = pygame.image.load('assets/laser.png').convert_alpha()
 
 # Carrega os sons do jogo
 pygame.mixer.music.load('assets/happy.mp3')
 pygame.mixer.music.set_volume(0.4)
 boom_sound = pygame.mixer.Sound('assets/boom.wav')
 destroy_sound = pygame.mixer.Sound('assets/dty.wav')
-pew_sound = pygame.mixer.Sound('assets/laserpew.ogg')
+assets ['pew_sound'] = pygame.mixer.Sound('assets/laserpew.ogg')
 
 
 #criando a nave e definindo o movimento
 class Ship(pygame.sprite.Sprite):
-    def __init__(self, img, all_sprites, all_bullets, bullet_img):
+    def __init__(self, groups, assets):
         # Construtor da classe mãe (Sprite).
         pygame.sprite.Sprite.__init__(self)
 
-        self.image = img
+        self.image = assests['ship_img']
         self.rect = self.image.get_rect()
         self.rect.centerx = WIDTH / 2
         self.rect.bottom = HEIGHT - 10
         self.speedx = 0
-        self.all_sprites = all_sprites
-        self.all_bullets = all_bullets
-        self.bullet_img = bullet_img
-        self.pew_sound = pew_sound
+        self.groups = groups
+        self.assets = assets
 
     def update(self):
         # Atualização da posição da nave
@@ -63,10 +62,10 @@ class Ship(pygame.sprite.Sprite):
 
     def shoot(self):
         # A nova bala vai ser criada logo acima e no centro horizontal da nave
-        new_bullet = Bullet(self.bullet_img, self.rect.top, self.rect.centerx)
-        self.all_sprites.add(new_bullet)
-        self.all_bullets.add(new_bullet)
-        self.pew_sound.play()
+        new_bullet = Bullet(self.assets, self.rect.top, self.rect.centerx)
+        self.groups['all_sprites'].add(new_bullet)
+        self.groups['all_bullets'].add(new_bullet)
+        self.assets['pew_sound'].play()
 
 
 
@@ -76,7 +75,7 @@ class Meteor(pygame.sprite.Sprite):
         # Construtor da classe mãe (Sprite).
         pygame.sprite.Sprite.__init__(self)
 
-        self.image = img
+        self.image = assets['meteor_img']
         self.rect = self.image.get_rect()
         self.rect.x = random.randint(0, WIDTH-METEOR_WIDTH)
         self.rect.y = random.randint(-100, - METEOR_HEIGHT)
@@ -102,7 +101,7 @@ class Bullet(pygame.sprite.Sprite):
         # Construtor da classe mãe (Sprite).
         pygame.sprite.Sprite.__init__(self)
 
-        self.image = img
+        self.image = assets['bullet_img']
         self.rect = self.image.get_rect()
 
         # Coloca no lugar inicial definido em x, y do constutor
@@ -130,8 +129,13 @@ all_sprites = pygame.sprite.Group()
 all_meteors = pygame.sprite.Group()
 all_bullets = pygame.sprite.Group()
 
+groups = {}
+groups['all_sprites'] = all_sprites
+groups['all_meteors'] = all_meteors
+groups['all_bullets'] = all_bullets
+
 # Criando o jogador
-player = Ship(ship_img, all_sprites, all_bullets, bullet_img)
+player = Ship(groups, assets)
 all_sprites.add(player)
 # Criando os meteoros
 for i in range(8):
@@ -143,6 +147,8 @@ for i in range(8):
 pygame.mixer.music.play(loops=-1)
 while game:
     clock.tick(FPS)
+
+
     # ----- Trata eventos
     for event in pygame.event.get():
         # ----- Verifica consequências
@@ -172,6 +178,7 @@ while game:
     hits = pygame.sprite.groupcollide(all_meteors, all_bullets, True, True)
     for meteor in hits: # As chaves são os elementos do primeiro grupo (meteoros) que colidiram com alguma bala
         # O meteoro e destruido e precisa ser recriado
+        destroy_sound.play()
         m = Meteor(meteor_img)
         all_sprites.add(m)
         all_meteors.add(m)
@@ -187,7 +194,7 @@ while game:
         game = False
     # ----- Gera saídas
     window.fill((0, 0, 0))  # Preenche com a cor branca
-    window.blit(background, (0, 0))
+    window.blit(assets['background'], (0, 0))
     # Desenhando meteoros
     all_sprites.draw(window)
 
