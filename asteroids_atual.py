@@ -14,8 +14,8 @@ pygame.display.set_caption('Asteroids')
 # ----- Inicia assets
 METEOR_WIDTH = 50
 METEOR_HEIGHT = 50
-SHIP_WIDTH = 100
-SHIP_HEIGHT = 100
+SHIP_WIDTH = 200
+SHIP_HEIGHT = 200
 
 background = pygame.image.load('assets/starfield2.jpg').convert()
 meteor_img = pygame.image.load('assets/meteoro2.png').convert_alpha()
