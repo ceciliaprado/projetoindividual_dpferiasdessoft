@@ -22,10 +22,10 @@ SHIP_HEIGHT = 200
 assets= {}
 assets ['background']= pygame.image.load('assets/starfield2.jpg').convert()
 assets['meteor_img'] = pygame.image.load('assets/meteoro2.png').convert_alpha()
-assets['meteor_img'] = pygame.transform.scale(meteor_img, (METEOR_WIDTH, METEOR_HEIGHT))
-assets['background ']= pygame.transform.scale(background, (WIDTH, HEIGHT))
+assets['meteor_img'] = pygame.transform.scale(assets['meteor_img'], (METEOR_WIDTH, METEOR_HEIGHT))
+assets['background']= pygame.transform.scale(assets['background'], (WIDTH, HEIGHT))
 assets['ship_img'] = pygame.image.load('assets/nave.png').convert_alpha()
-assets['ship_img'] = pygame.transform.scale(ship_img, (SHIP_WIDTH, SHIP_HEIGHT))
+assets['ship_img'] = pygame.transform.scale(assets['ship_img'], (SHIP_WIDTH, SHIP_HEIGHT))
 assets['bullet_img'] = pygame.image.load('assets/laser.png').convert_alpha()
 
 # Carrega os sons do jogo
@@ -42,7 +42,7 @@ class Ship(pygame.sprite.Sprite):
         # Construtor da classe mãe (Sprite).
         pygame.sprite.Sprite.__init__(self)
 
-        self.image = assests['ship_img']
+        self.image = assets['ship_img']
         self.rect = self.image.get_rect()
         self.rect.centerx = WIDTH / 2
         self.rect.bottom = HEIGHT - 10
@@ -139,7 +139,7 @@ player = Ship(groups, assets)
 all_sprites.add(player)
 # Criando os meteoros
 for i in range(8):
-    meteor = Meteor(meteor_img)
+    meteor = Meteor('meteor_img')
     all_sprites.add(meteor)
     all_meteors.add(meteor)
 
@@ -179,7 +179,7 @@ while game:
     for meteor in hits: # As chaves são os elementos do primeiro grupo (meteoros) que colidiram com alguma bala
         # O meteoro e destruido e precisa ser recriado
         destroy_sound.play()
-        m = Meteor(meteor_img)
+        m = Meteor('meteor_img')
         all_sprites.add(m)
         all_meteors.add(m)
 
