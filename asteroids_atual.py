@@ -19,7 +19,7 @@ SHIP_HEIGHT = 38
 
 background = pygame.image.load('assets/starfield2.jpg').convert()
 meteor_img = pygame.image.load('assets/meteoro2.png').convert_alpha()
-meteor_img_small = pygame.transform.scale(meteor_img, (METEOR_WIDTH, METEOR_HEIGHT))
+meteor_img = pygame.transform.scale(meteor_img, (METEOR_WIDTH, METEOR_HEIGHT))
 background = pygame.transform.scale(background, (WIDTH, HEIGHT))
 ship_img = pygame.image.load('assets/nave.png').convert_alpha()
 ship_img = pygame.transform.scale(ship_img, (SHIP_WIDTH, SHIP_HEIGHT))
@@ -87,7 +87,7 @@ player = Ship(ship_img)
 all_sprites.add(player)
 # Criando os meteoros
 for i in range(8):
-    meteor = Meteor(meteor_img)
+    meteor = Meteor(meteor_img_small)
     all_sprites.add(meteor)
 
 # ===== Loop principal =====
