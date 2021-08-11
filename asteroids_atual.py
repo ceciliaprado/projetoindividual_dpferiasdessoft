@@ -2,9 +2,10 @@
 # ----- Importa e inicia pacotes
 import pygame
 import random
+import time
 
 pygame.init()
-
+pygame.mixer.init()
 
 # ----- Gera tela principal
 WIDTH = 480
@@ -26,6 +27,13 @@ ship_img = pygame.image.load('assets/nave.png').convert_alpha()
 ship_img = pygame.transform.scale(ship_img, (SHIP_WIDTH, SHIP_HEIGHT))
 bullet_img = pygame.image.load('assets/laser.png').convert_alpha()
 
+# Carrega os sons do jogo
+pygame.mixer.music.load('assets/happy.mp3')
+pygame.mixer.music.set_volume(0.4)
+boom_sound = pygame.mixer.Sound('assets/boom.wav')
+destroy_sound = pygame.mixer.Sound('assets/dty.wav')
+pew_sound = pygame.mixer.Sound('assets/laserpew.ogg')
+
 
 #criando a nave e definindo o movimento
 class Ship(pygame.sprite.Sprite):
@@ -41,6 +49,7 @@ class Ship(pygame.sprite.Sprite):
         self.all_sprites = all_sprites
         self.all_bullets = all_bullets
         self.bullet_img = bullet_img
+        self.pew_sound = pew_sound
 
     def update(self):
         # Atualização da posição da nave
@@ -57,6 +66,7 @@ class Ship(pygame.sprite.Sprite):
         new_bullet = Bullet(self.bullet_img, self.rect.top, self.rect.centerx)
         self.all_sprites.add(new_bullet)
         self.all_bullets.add(new_bullet)
+        self.pew_sound.play()
 
 
 
@@ -130,6 +140,7 @@ for i in range(8):
     all_meteors.add(meteor)
 
 # ===== Loop principal =====
+pygame.mixer.music.play(loops=-1)
 while game:
     clock.tick(FPS)
     # ----- Trata eventos
@@ -157,9 +168,22 @@ while game:
     # Atualizando a posição dos meteoros
     all_sprites.update()
 
+# Verifica se houve colisão entre tiro e meteoro
+    hits = pygame.sprite.groupcollide(all_meteors, all_bullets, True, True)
+    for meteor in hits: # As chaves são os elementos do primeiro grupo (meteoros) que colidiram com alguma bala
+        # O meteoro e destruido e precisa ser recriado
+        m = Meteor(meteor_img)
+        all_sprites.add(m)
+        all_meteors.add(m)
+
+
     # Verifica se houve colisão entre nave e meteoro
     hits = pygame.sprite.spritecollide(player, all_meteors, True)
     if len(hits) > 0:
+        # Toca o som da colisão
+        boom_sound.play()
+        time.sleep(1) # Precisa esperar senão fecha
+
         game = False
     # ----- Gera saídas
     window.fill((0, 0, 0))  # Preenche com a cor branca
