@@ -12,10 +12,10 @@ window = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption('Asteroids')
 
 # ----- Inicia assets
-METEOR_WIDTH = 10
-METEOR_HEIGHT = 10
-SHIP_WIDTH = 50
-SHIP_HEIGHT = 38
+METEOR_WIDTH = 50
+METEOR_HEIGHT = 50
+SHIP_WIDTH = 100
+SHIP_HEIGHT = 100
 
 background = pygame.image.load('assets/starfield2.jpg').convert()
 meteor_img = pygame.image.load('assets/meteoro2.png').convert_alpha()
@@ -87,7 +87,7 @@ player = Ship(ship_img)
 all_sprites.add(player)
 # Criando os meteoros
 for i in range(8):
-    meteor = Meteor(meteor_img_small)
+    meteor = Meteor(meteor_img)
     all_sprites.add(meteor)
 
 # ===== Loop principal =====
