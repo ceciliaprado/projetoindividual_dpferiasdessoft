@@ -82,6 +82,7 @@ FPS = 30
 
 # Criando um grupo de meteoros
 all_sprites = pygame.sprite.Group()
+all_meteors = pygame.sprite.Group()
 # Criando o jogador
 player = Ship(ship_img)
 all_sprites.add(player)
@@ -89,6 +90,7 @@ all_sprites.add(player)
 for i in range(8):
     meteor = Meteor(meteor_img)
     all_sprites.add(meteor)
+    all_meteors.add(meteor)
 
 # ===== Loop principal =====
 while game:
@@ -117,6 +119,9 @@ while game:
     # ----- Atualiza estado do jogo
     # Atualizando a posição dos meteoros
     all_sprites.update()
+
+    # Verifica se houve colisão entre nave e meteoro
+    hits = pygame.sprite.spritecollide(player, all_meteors, True)
 
     # ----- Gera saídas
     window.fill((0, 0, 0))  # Preenche com a cor branca
