@@ -12,15 +12,41 @@ window = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption('Asteroids')
 
 # ----- Inicia assets
-METEOR_WIDTH = 50
-METEOR_HEIGHT = 50
-
+METEOR_WIDTH = 10
+METEOR_HEIGHT = 10
+SHIP_WIDTH = 50
+SHIP_HEIGHT = 38
 
 background = pygame.image.load('assets/starfield2.jpg').convert()
-meteor_img = pygame.image.load('assets/coroninha.png').convert_alpha()
+meteor_img = pygame.image.load('assets/meteoro2.png').convert_alpha()
 meteor_img_small = pygame.transform.scale(meteor_img, (METEOR_WIDTH, METEOR_HEIGHT))
 background = pygame.transform.scale(background, (WIDTH, HEIGHT))
+ship_img = pygame.image.load('assets/nave.png').convert_alpha()
+ship_img = pygame.transform.scale(ship_img, (SHIP_WIDTH, SHIP_HEIGHT))
 
+
+
+#criando a nave e definindo o movimento
+class Ship(pygame.sprite.Sprite):
+    def __init__(self, img):
+        # Construtor da classe mãe (Sprite).
+        pygame.sprite.Sprite.__init__(self)
+
+        self.image = img
+        self.rect = self.image.get_rect()
+        self.rect.centerx = WIDTH / 2
+        self.rect.bottom = HEIGHT - 10
+        self.speedx = 0
+
+    def update(self):
+        # Atualização da posição da nave
+        self.rect.x += self.speedx
+
+        # Mantem dentro da tela
+        if self.rect.right > WIDTH:
+            self.rect.right = WIDTH
+        if self.rect.left < 0:
+            self.rect.left = 0
 # Definindo os novos tipos
 class Meteor(pygame.sprite.Sprite):
     def __init__(self, img):
@@ -50,17 +76,19 @@ class Meteor(pygame.sprite.Sprite):
 # ----- Inicia estruturas de dados
 game = True
 
-# Criando um grupo de meteoros
-all_meteors = pygame.sprite.Group()
-# Criando os meteoros
-for i in range(8):
-    meteor = Meteor(meteor_img)
-    all_meteors.add(meteor)
-
-    
 #velocidade
 clock = pygame.time.Clock()
 FPS = 30
+
+# Criando um grupo de meteoros
+all_sprites = pygame.sprite.Group()
+# Criando o jogador
+player = Ship(ship_img)
+all_sprites.add(player)
+# Criando os meteoros
+for i in range(8):
+    meteor = Meteor(meteor_img)
+    all_sprites.add(meteor)
 
 # ===== Loop principal =====
 while game:
@@ -72,18 +100,14 @@ while game:
             game = False
 
     # ----- Atualiza estado do jogo
-   # Atualizando a posição dos meteoros
-    meteor1.update()
-    meteor2.update()
-
-  
+    # Atualizando a posição dos meteoros
+    all_sprites.update()
 
     # ----- Gera saídas
     window.fill((0, 0, 0))  # Preenche com a cor branca
     window.blit(background, (0, 0))
-
-    window.blit(meteor1.image, meteor1.rect)
-    window.blit(meteor2.image, meteor2.rect)
+    # Desenhando meteoros
+    all_sprites.draw(window)
 
     pygame.display.update()  # Mostra o novo frame para o jogador
 
