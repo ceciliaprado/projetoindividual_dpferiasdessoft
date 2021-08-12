@@ -2,18 +2,19 @@ import pygame
 import random
 from os import path
 
-from config import BLACK, FPS, GAME, QUIT
+from config import BLACK, FPS, GAME, QUIT, TELA_FINAL
 
 
-def init_screen(screen):
+def tela_final(screen):
     # Variável para o ajuste de velocidade
     clock = pygame.time.Clock()
 
     # Carrega o fundo da tela inicial
-    background = pygame.image.load('assets/inicio.png').convert()
-    background_rect = background.get_rect()
+    tela_final = pygame.image.load('assets/tela_final.jpg').convert()
+    tela_final_rect = tela_final.get_rect()
 
     running = True
+    state = TELA_FINAL
     while running:
 
         # Ajusta a velocidade do jogo.
@@ -26,13 +27,21 @@ def init_screen(screen):
                 state = QUIT
                 running = False
 
-            if event.type == pygame.KEYUP:
-                state = GAME
+            if event.type == pygame.KEYDOWN and event.key != pygame.K_SPACE:
+                state = QUIT
                 running = False
+
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+                state = GAME
+                running = True
 
         # A cada loop, redesenha o fundo e os sprites
         screen.fill(BLACK)
-        screen.blit(background, background_rect)
+        screen.blit(tela_final, tela_final_rect)
+
+#WIDTH = 480 # Largura da tela
+#HEIGHT = 600 
+
 
         # Depois de desenhar tudo, inverte o display.
         pygame.display.flip()

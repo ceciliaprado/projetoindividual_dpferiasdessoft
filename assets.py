@@ -1,6 +1,6 @@
 import pygame
 import os
-from config import METEOR_WIDTH, METEOR_HEIGHT, SHIP_WIDTH, SHIP_HEIGHT, IMG_DIR, SND_DIR, FNT_DIR, WIDTH, HEIGHT
+from config import METEOR_WIDTH, METEOR_HEIGHT, SHIP_WIDTH, SHIP_HEIGHT, IMG_DIR, SND_DIR, FNT_DIR, WIDTH, HEIGHT, TELA_FINAL
 
 
 BACKGROUND = 'background'
@@ -14,6 +14,7 @@ SCORE_FONT = 'score_font'
 BOOM_SOUND = 'boom_sound'
 DESTROY_SOUND = 'destroy_sound'
 PEW_SOUND = 'pew_sound'
+TELA_FINAL= 'tela_final'
 
 def load_assets():
     assets= {}
@@ -24,6 +25,9 @@ def load_assets():
     assets[SHIP_IMG] = pygame.image.load('assets/nave.png').convert_alpha()
     assets[SHIP_IMG] = pygame.transform.scale(assets['ship_img'], (SHIP_WIDTH, SHIP_HEIGHT))
     assets[BULLET_IMG] = pygame.image.load('assets/laser.png').convert_alpha()
+    assets[TELA_FINAL]= pygame.image.load('assets/tela_final.jpg').convert()
+    assets[TELA_FINAL]= pygame.transform.scale(assets['tela_final'], (WIDTH, HEIGHT))
+
 
 
     explosion_anim = []

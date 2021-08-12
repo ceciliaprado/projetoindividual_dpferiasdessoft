@@ -1,9 +1,9 @@
 from os import path
 
 # Estabelece a pasta que contem as figuras e sons.
-IMG_DIR = path.join(path.dirname(__file__), 'assets', 'img')
-SND_DIR = path.join(path.dirname(__file__), 'assets', 'snd')
-FNT_DIR = path.join(path.dirname(__file__), 'assets', 'font')
+IMG_DIR = path.join(path.dirname(__file__), 'assets')
+SND_DIR = path.join(path.dirname(__file__), 'assets')
+FNT_DIR = path.join(path.dirname(__file__), 'assets')
 
 # Dados gerais do jogo.
 WIDTH = 480 # Largura da tela
@@ -28,3 +28,4 @@ YELLOW = (255, 255, 0)
 INIT = 0
 GAME = 1
 QUIT = 2
+TELA_FINAL= 3
