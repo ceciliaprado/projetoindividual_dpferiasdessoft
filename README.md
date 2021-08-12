@@ -3,5 +3,7 @@ Esse jogo foi desenvolvido pela aluna Cecilia Del Monaco Prado como parte do cur
 
 As funcionalidades implementadas foram:
 
-- funcionalidade 1
-- funcionalidade 2
+- tela de inicio com instruções
+- tela final com a possibilidade de reiniciar o jogo
+- aumento da dificuldade do jogo conforme o jogador aumenta sua pontuação
+- mostrar na tela final a pontuacoa do jogador
