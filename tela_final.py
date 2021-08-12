@@ -2,7 +2,7 @@ import pygame
 import random
 from os import path
 from assets import load_assets, SCORE_FONT
-from config import BLACK, FPS, GAME, INIT, QUIT, TELA_FINAL, YELLOW, WIDTH
+from config import BLACK, FPS, GAME, INIT, PINK, QUIT, TELA_FINAL, YELLOW, WIDTH
 
 
 
@@ -42,7 +42,7 @@ def tela_final(screen, score):
         screen.blit(tela_final, tela_final_rect)
 
         # Desenhando o score
-        text_surface = assets[SCORE_FONT].render("{:08d}".format(score), True, YELLOW)
+        text_surface = assets[SCORE_FONT].render("{:08d}".format(score), True, PINK)
         text_rect = text_surface.get_rect()
         text_rect.midtop = (WIDTH / 2,  480)
         screen.blit(text_surface, text_rect)

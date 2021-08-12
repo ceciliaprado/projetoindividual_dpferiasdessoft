@@ -1,5 +1,5 @@
 import pygame
-from config import FPS, GAME, TELA_FINAL, WIDTH, HEIGHT, BLACK, YELLOW, RED, QUIT
+from config import FPS, GAME, TELA_FINAL, WIDTH, HEIGHT, BLACK, YELLOW, RED, QUIT, PINK
 from assets import load_assets, DESTROY_SOUND, BOOM_SOUND, BACKGROUND, SCORE_FONT
 from sprites import Ship, Meteor, Bullet, Explosion
 
@@ -23,7 +23,7 @@ def game_screen(window):
     player = Ship(groups, assets)
     all_sprites.add(player)
     # Criando os meteoros\
-    n_meteoros= 4
+    n_meteoros= 5
     for i in range(n_meteoros):
         meteor = Meteor(assets)
         all_sprites.add(meteor)
@@ -133,7 +133,7 @@ def game_screen(window):
         all_sprites.draw(window)
 
         # Desenhando o score
-        text_surface = assets[SCORE_FONT].render("{:08d}".format(score), True, YELLOW)
+        text_surface = assets[SCORE_FONT].render("{:08d}".format(score), True, PINK)
         text_rect = text_surface.get_rect()
         text_rect.midtop = (WIDTH / 2,  10)
         window.blit(text_surface, text_rect)
