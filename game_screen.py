@@ -1,5 +1,5 @@
 import pygame
-from config import FPS, TELA_FINAL, WIDTH, HEIGHT, BLACK, YELLOW, RED, QUIT
+from config import FPS, GAME, TELA_FINAL, WIDTH, HEIGHT, BLACK, YELLOW, RED, QUIT
 from assets import load_assets, DESTROY_SOUND, BOOM_SOUND, BACKGROUND, SCORE_FONT
 from sprites import Ship, Meteor, Bullet, Explosion
 
@@ -22,8 +22,9 @@ def game_screen(window):
     # Criando o jogador
     player = Ship(groups, assets)
     all_sprites.add(player)
-    # Criando os meteoros
-    for i in range(8):
+    # Criando os meteoros\
+    n_meteoros= 4
+    for i in range(n_meteoros):
         meteor = Meteor(assets)
         all_sprites.add(meteor)
         all_meteors.add(meteor)
@@ -39,7 +40,8 @@ def game_screen(window):
 
     # ===== Loop principal =====
     pygame.mixer.music.play(loops=-1)
-    while state != DONE:
+    while state != DONE :
+
         clock.tick(FPS)
 
         # ----- Trata eventos
@@ -90,6 +92,15 @@ def game_screen(window):
                 score += 100
                 if score % 1000 == 0:
                     lives += 1
+
+                #AQUI
+                if score % 400 == 0:
+                    n_meteoros += 2
+                    for n in range(2):
+                        m = Meteor(assets)
+                        all_sprites.add(m)
+                        all_meteors.add(m)
+
 
             # Verifica se houve colisão entre nave e meteoro
             hits = pygame.sprite.spritecollide(player, all_meteors, True, pygame.sprite.collide_mask)
