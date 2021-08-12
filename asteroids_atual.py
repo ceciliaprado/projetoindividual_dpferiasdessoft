@@ -19,6 +19,7 @@ METEOR_WIDTH = 50
 METEOR_HEIGHT = 50
 SHIP_WIDTH = 150
 SHIP_HEIGHT = 150
+FPS = 30
 
 assets= {}
 assets ['background']= pygame.image.load('assets/starfield2.jpg').convert()
@@ -53,8 +54,8 @@ class Ship(pygame.sprite.Sprite):
     def __init__(self, groups, assets):
         # Construtor da classe mãe (Sprite).
         pygame.sprite.Sprite.__init__(self)
-
         self.image = (assets['ship_img'])
+        self.mask = pygame.mask.from_surface(self.image)
         self.rect = self.image.get_rect()
         self.rect.centerx = WIDTH / 2
         self.rect.bottom = HEIGHT - 10
@@ -100,6 +101,7 @@ class Meteor(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
 
         self.image = (assets['meteor_img'])
+        self.mask = pygame.mask.from_surface(self.image)
         self.rect = self.image.get_rect()
         self.rect.x = random.randint(0, WIDTH-METEOR_WIDTH)
         self.rect.y = random.randint(-100, - METEOR_HEIGHT)
@@ -126,6 +128,7 @@ class Bullet(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
 
         self.image = assets['bullet_img']
+        self.mask = pygame.mask.from_surface(self.image)
         self.rect = self.image.get_rect()
 
         # Coloca no lugar inicial definido em x, y do constutor
@@ -190,30 +193,29 @@ class Explosion(pygame.sprite.Sprite):
                 self.rect = self.image.get_rect()
                 self.rect.center = center
 
+def game_screen(window):
+    # Variável para o ajuste de velocidade
+    clock = pygame.time.Clock()
 
+    assets = load_assets()
 
-#velocidade
-clock = pygame.time.Clock()
-FPS = 30
+    # Criando um grupo de meteoros
+    all_sprites = pygame.sprite.Group()
+    all_meteors = pygame.sprite.Group()
+    all_bullets = pygame.sprite.Group()
+    groups = {}
+    groups['all_sprites'] = all_sprites
+    groups['all_meteors'] = all_meteors
+    groups['all_bullets'] = all_bullets
 
-# Criando um grupo de meteoros
-all_sprites = pygame.sprite.Group()
-all_meteors = pygame.sprite.Group()
-all_bullets = pygame.sprite.Group()
-
-groups = {}
-groups['all_sprites'] = all_sprites
-groups['all_meteors'] = all_meteors
-groups['all_bullets'] = all_bullets
-
-# Criando o jogador
-player = Ship(groups, assets)
-all_sprites.add(player)
-# Criando os meteoros
-for i in range(8):
-    meteor = Meteor('meteor_img')
-    all_sprites.add(meteor)
-    all_meteors.add(meteor)
+    # Criando o jogador
+    player = Ship(groups, assets)
+    all_sprites.add(player)
+    # Criando os meteoros
+    for i in range(8):
+        meteor = Meteor(assets)
+        all_sprites.add(meteor)
+        all_meteors.add(meteor)
 
 
 DONE = 0
@@ -281,7 +283,7 @@ while state != DONE:
    
 
     # Verifica se houve colisão entre nave e meteoro
-    hits = pygame.sprite.spritecollide(player, all_meteors, True)
+    hits = pygame.sprite.spritecollide(player, all_meteors, True, pygame.sprite.collide_mask)
     if len(hits) > 0:
             # Toca o som da colisão
             assets['boom_sound'].play()
@@ -325,5 +327,6 @@ while state != DONE:
 
     pygame.display.update()  # Mostra o novo frame para o jogador
 
+game_screen(window)
 # ===== Finalização =====
 pygame.quit()  # Função do PyGame que finaliza os recursos utilizados
