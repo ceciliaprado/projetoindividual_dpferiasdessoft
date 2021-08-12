@@ -1,16 +1,16 @@
 import pygame
 import random
 from os import path
-
+from assets import load_assets
 from config import BLACK, FPS, GAME, QUIT, TELA_FINAL
 
 
-def tela_final(screen):
+def tela_final(screen, score):
     # Variável para o ajuste de velocidade
     clock = pygame.time.Clock()
-
+    assets = load_assets()
     # Carrega o fundo da tela inicial
-    tela_final = pygame.image.load('assets/tela_final.jpg').convert()
+    tela_final = assets['tela_final']
     tela_final_rect = tela_final.get_rect()
 
     running = True

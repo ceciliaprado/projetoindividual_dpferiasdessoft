@@ -3,10 +3,10 @@
 import pygame
 import random
 import path
-from config import WIDTH, HEIGHT, INIT, GAME, QUIT
+from config import WIDTH, HEIGHT, INIT, GAME, QUIT, TELA_FINAL
 from init_screen import init_screen
 from game_screen import game_screen
-
+from tela_final import tela_final
 
 pygame.init()
 pygame.mixer.init()
@@ -20,7 +20,9 @@ while state != QUIT:
     if state == INIT:
         state = init_screen(window)
     elif state == GAME:
-        state = game_screen(window)
+        state,score = game_screen(window)
+    elif state== TELA_FINAL:
+        state= tela_final(window,score)
     else:
         state = QUIT
 

@@ -1,5 +1,5 @@
 import pygame
-from config import FPS, WIDTH, HEIGHT, BLACK, YELLOW, RED
+from config import FPS, TELA_FINAL, WIDTH, HEIGHT, BLACK, YELLOW, RED, QUIT
 from assets import load_assets, DESTROY_SOUND, BOOM_SOUND, BACKGROUND, SCORE_FONT
 from sprites import Ship, Meteor, Bullet, Explosion
 
@@ -108,7 +108,8 @@ def game_screen(window):
             now = pygame.time.get_ticks()
             if now - explosion_tick > explosion_duration:
                 if lives == 0:
-                    state = DONE
+                    return (TELA_FINAL, score)
+                    
                 else:
                     state = PLAYING
                     player = Ship(groups, assets)
@@ -133,3 +134,4 @@ def game_screen(window):
         window.blit(text_surface, text_rect)
 
         pygame.display.update()  # Mostra o novo frame para o jogador
+    return (QUIT, score)
