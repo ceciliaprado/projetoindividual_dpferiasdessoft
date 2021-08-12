@@ -10,11 +10,11 @@ WIDTH = 480 # Largura da tela
 HEIGHT = 600 # Altura da tela
 FPS = 60 # Frames por segundo
 
-# Define tamanhos
+
 METEOR_WIDTH = 50
-METEOR_HEIGHT = 38
-SHIP_WIDTH = 50
-SHIP_HEIGHT = 38
+METEOR_HEIGHT = 50
+SHIP_WIDTH = 150
+SHIP_HEIGHT = 150
 
 # Define algumas variáveis com as cores básicas
 WHITE = (255, 255, 255)
