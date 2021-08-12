@@ -37,7 +37,7 @@ for i in range(9):
     img = pygame.transform.scale(img, (32, 32))
     explosion_anim.append(img)
 assets["explosion_anim"] = explosion_anim
-assets["score_font"] = pygame.font.Font(os.path.join(FNT_DIR, 'PressStart2P.ttf'),28)
+assets["score_font"] = pygame.font.Font('assets/PressStart2P.ttf', 28)
 
 
 # Carrega os sons do jogo
@@ -287,6 +287,7 @@ while state != DONE:
             explosao = Explosion(player.rect.center, assets)
             all_sprites.add(explosao)
             state = EXPLODING
+            keys_down = {}
             explosion_tick = pygame.time.get_ticks()
             explosion_duration = explosao.frame_ticks * len(explosao.explosion_anim) + 400
     elif state == EXPLODING:
