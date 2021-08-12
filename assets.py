@@ -15,6 +15,7 @@ BOOM_SOUND = 'boom_sound'
 DESTROY_SOUND = 'destroy_sound'
 PEW_SOUND = 'pew_sound'
 TELA_FINAL= 'tela_final'
+TELA_INICIO= 'tela_inicio'
 
 def load_assets():
     assets= {}
@@ -27,7 +28,8 @@ def load_assets():
     assets[BULLET_IMG] = pygame.image.load('assets/laser.png').convert_alpha()
     assets[TELA_FINAL]= pygame.image.load('assets/tela_final.jpg').convert()
     assets[TELA_FINAL]= pygame.transform.scale(assets['tela_final'], (WIDTH, HEIGHT))
-
+    assets[TELA_INICIO]= pygame.image.load('assets/inicio.png').convert()
+    assets[TELA_INICIO]= pygame.transform.scale(assets['tela_inicio'], (WIDTH, HEIGHT))
 
 
     explosion_anim = []
